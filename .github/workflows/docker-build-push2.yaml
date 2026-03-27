@@ -9,15 +9,10 @@ on:
   workflow_dispatch:
     branches: [ "main" ]
     paths:
+      # Adjust paths depending on where
+      # docker-image files are stored
+      #- '/**'
       - 'docker-image/**'
-#  schedule:
-#    - cron: '15 4 * * *'
-#  push:
-#    branches: [ "main" ]
-    # Publish semver tags as releases.
-#    tags: [ 'v*.*.*' ]
-#  pull_request:
-#    branches: [ "main" ]
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -78,7 +73,10 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
-          context: .
+          # Adjust context depending on where
+          # docker-image files are stored
+          #context: .
+          context: docker-image
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
